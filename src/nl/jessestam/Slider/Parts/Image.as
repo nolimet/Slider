@@ -20,7 +20,7 @@ package nl.jessestam.Slider.Parts
 			
 			
 			img = new Loader();
-			img.load(new URLRequest("http://www.jessestam.nl/Images/Slider/" + $img + ".png"));
+			img.load(new URLRequest("Images/Slider/" + $img + ".png"));
 			addChild(img);
 			
 			textF = new TextField();

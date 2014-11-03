@@ -47,7 +47,7 @@ package nl.jessestam.Slider
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			// entry point
 			
-			XML_Loader("http://www.jessestam.nl/xml/slider.xml"); //setToxml Location
+			XML_Loader("xml/slider.xml"); //setToxml Location
 		}
 		
 		private function Wait(e:TimerEvent):void 
