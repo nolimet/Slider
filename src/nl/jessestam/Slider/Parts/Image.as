@@ -8,6 +8,7 @@ package nl.jessestam.Slider.Parts
 	import flash.text.TextFormat;
 	import flash.net.navigateToURL;
 	import nl.jessestam.Slider.utils.draw.Squar;
+	import nl.jessestam.Slider.Main;
 	/**
 	 * ...
 	 * @author Jesse Stam
@@ -22,7 +23,7 @@ package nl.jessestam.Slider.Parts
 		{	
 			url = $url;
 			img = new Loader();
-			img.load(new URLRequest("Images/Slider/" + $img + ".png"));
+			img.load(new URLRequest(Main.domain + "Images/Slider/" + $img + ".png"));
 			addChild(img);
 			
 			textF = new TextField();

@@ -36,6 +36,8 @@ package nl.jessestam.Slider
 		private var buttonForward:Button;
 		private var buttonBackward:Button;
 		
+		public static const domain:String = "http://jessestam.nl/"
+		
 		public function Main():void 
 		{
 			if (stage) init();
@@ -52,11 +54,14 @@ package nl.jessestam.Slider
 		
 		private function Wait(e:TimerEvent):void 
 		{
+			removeEventListener(TimerEvent.TIMER, Wait);
 			MoveImg(30, 1024, 100);
 		}
 		
 		private function moveTimerComplete(e:TimerEvent):void 
 		{
+			moveTimer.removeEventListener(TimerEvent.TIMER, automove);
+			moveTimer.removeEventListener(TimerEvent.TIMER_COMPLETE, moveTimerComplete);
 			index = newIndex;
 			
 			images[index].x = 0;
@@ -65,7 +70,7 @@ package nl.jessestam.Slider
 				newIndex = 0;
 			}
 			
-			WaitTimer = new Timer(5000, 1);
+			WaitTimer = new Timer(3000, 1);
 			WaitTimer.addEventListener(TimerEvent.TIMER, Wait, false, 0, true);
 			WaitTimer.start();
 		}
@@ -81,7 +86,7 @@ package nl.jessestam.Slider
 		private function XML_Loader($url:String):void
 		{
 			try{
-			_loader = new URLLoader (new URLRequest($url));
+			_loader = new URLLoader (new URLRequest(Main.domain + $url));
 			_loader.addEventListener(Event.COMPLETE, onXMLLoad, false, 0, true);
 			}
 			catch(error:Error){
@@ -113,7 +118,7 @@ package nl.jessestam.Slider
 			trace(images);
 			
 			newIndex = 1;
-			WaitTimer = new Timer(5000, 1);
+			WaitTimer = new Timer(3000, 1);
 			WaitTimer.addEventListener(TimerEvent.TIMER, Wait, false, 0, true);
 			
 			WaitTimer.start();
