@@ -103,7 +103,7 @@ package nl.jessestam.Slider
 			var img : Image;
 			for (var i:int = 0; i < l; i++) 
 			{
-				img = new Image(xml.game[i].img, xml.game[i].text);
+				img = new Image(xml.game[i].img, xml.game[i].text, xml.game[i].url);
 				addChild(img);
 				img.x = 1024 * i;
 				images.push(img);
