@@ -10,6 +10,7 @@ package nl.jessestam.Slider
 	import flash.utils.Timer;
 	import nl.jessestam.Slider.Parts.Image;
 	import nl.jessestam.Slider.utils.draw.Button;
+	import nl.jessestam.Slider.utils.draw.Circle;
 	import nl.jessestam.Slider.utils.loaders.XML_Loader;
 	
 	/**
@@ -23,6 +24,7 @@ package nl.jessestam.Slider
 		private var _loader:URLLoader;
 		public var xml:XML;
 		private var images:Vector.<Image> = new Vector.<Image>();
+		private var indexIndicators:Vector.<Circle> = new Vector.<Circle>();
 		
 		private var moveTimer:Timer;
 		private var WaitTimer:Timer;
@@ -33,8 +35,8 @@ package nl.jessestam.Slider
 		private var newIndex:int = 0;
 		private var maxIndex:int = 0;
 		
-		private var buttonForward:Button;
-		private var buttonBackward:Button;
+		//private var buttonForward:Button;
+		//private var buttonBackward:Button;
 		
 		public static const domain:String = "http://jessestam.nl/"
 		
@@ -105,6 +107,7 @@ package nl.jessestam.Slider
 		private function loadImages():void
 		{
 			var l:Number = xml.game.length();
+			
 			var img : Image;
 			for (var i:int = 0; i < l; i++) 
 			{
@@ -112,23 +115,23 @@ package nl.jessestam.Slider
 				addChild(img);
 				img.x = 1024 * i;
 				images.push(img);
+				trace(xml.game[i].img);
 			}
 			maxIndex = l;
-			trace(l);
-			trace(images);
-			
+
 			newIndex = 1;
 			WaitTimer = new Timer(3000, 1);
 			WaitTimer.addEventListener(TimerEvent.TIMER, Wait, false, 0, true);
 			
 			WaitTimer.start();
 			
+			DrawIndicators(l);
 			//buttonForward = new Button(70, 70, 1024 - 70, (384 / 2) - 35, 0x444444, ">>", 40);
 			//buttonBackward = new Button(70, 70, 0 , (384 / 2) - 35, 0x444444, "<<", 40);
-			
+			//
 			//buttonBackward.addEventListener(MouseEvent.CLICK, backward, false, 0, true);
 			//buttonForward.addEventListener(MouseEvent.CLICK, forward, false, 0, true);
-			
+			//
 			//addChild(buttonForward);
 			//addChild(buttonBackward);
 		}
@@ -160,12 +163,36 @@ package nl.jessestam.Slider
 			MoveImg(30, 1024, 100);
 		}
 		
+		private function DrawIndicators(length: int):void {
+			var c : Circle ;
+			var x : Number;
+			var y : Number;
+			var radius : Number;
+			radius = 7.5;
+			
+			y = radius + 3;
+			x = 1024 / 2;
+			x = x + (((radius*2) + 5) * (length / 2));
+			
+			for (var i:int = 0; i < length; i++) 
+			{
+				c = new Circle(x, y, radius, 0xffffff, 1);
+				c.alpha = 0.4;
+				x -= (radius*2) + 5;
+				addChild(c);
+				indexIndicators.push(c);
+			}
+			
+			indexIndicators[index].alpha = 0.8;
+		}
 		
 		private function MoveImg(steps:int, dist:int, time:Number):void {
 			step = dist / steps;
 			moveTimer = new Timer(time / steps, steps);
 			images[newIndex].x = -dist;
 			
+			indexIndicators[index].alpha = 0.4;
+			indexIndicators[newIndex].alpha = 0.8;
 			
 			moveTimer.addEventListener(TimerEvent.TIMER, automove, false, 0, true);
 			moveTimer.addEventListener(TimerEvent.TIMER_COMPLETE, moveTimerComplete, false, 0, true); 
